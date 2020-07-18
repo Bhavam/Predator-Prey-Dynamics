@@ -9,4 +9,8 @@ Predator–Prey equations, are a pair of first-order nonlinear differential equa
 ## Objective
 ### Stage 1 
 Introduce genes for evolution and implement a basic genetic algorithm based evolution.
+### Working Demonstrations
+#### Dynamics Setup Completed
 ![Video](DEMO.gif)
+#### Environment Setup Completed
+![Video2](DEMO2.gif)
