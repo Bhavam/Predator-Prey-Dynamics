@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Simulator : MonoBehaviour
 {
     public static float elapsed = 0;
-    public float trialTime = 5;
+    public float trialTime = 10;
     int generation = 1;
 
     public GameObject[] predatorPrefabs;
@@ -59,6 +60,13 @@ public class Simulator : MonoBehaviour
       {
         DestroyAllObjects(restPopulation);
       }
+
+      elapsed += Time.deltaTime;
+      if (elapsed >= trialTime)
+        {
+            BreedNewPredatorPopulation();
+            elapsed = 0;
+        }
     }
 
     public void DestroyAllObjects(List<GameObject> objectList)
@@ -91,6 +99,7 @@ public class Simulator : MonoBehaviour
           predatorRandom.location = new Vector3(Random.Range(-12,12),1,Random.Range(-12,12)) ;//Hardcoded bounds
           GameObject temp1 =(GameObject)Instantiate(predatorRandom.predatorPrefab,predatorRandom.location,Quaternion.identity);
           temp1.transform.parent = transform; //All rest Objects are parented to ForestEnvironment
+          temp1.GetComponent<PredatorBrain>().Init();
           predatorPopulation.Add(temp1);
         } 
       
@@ -106,6 +115,43 @@ public class Simulator : MonoBehaviour
 
     }
       
+    GameObject BreedPredator(GameObject parent1,GameObject parent2)
+    {
+      Vector3 startingPos = new Vector3(0 ,1, -14);
+      GameObject offspring = Instantiate(predatorPrefabs[0], startingPos, this.transform.rotation);
+      PredatorBrain b = offspring.GetComponent<PredatorBrain>();
+      if (Random.Range(0, 100) == 1)
+        {
+            b.Init();
+            b.dna.Mutate();
+        }
+        else
+        {
+            b.Init();
+            b.dna.Combine(parent1.GetComponent<PredatorBrain>().dna, parent2.GetComponent<PredatorBrain>().dna);
+
+        }
+        return offspring;
+    }
+
+    void BreedNewPredatorPopulation()
+    {
+        List<GameObject> sortedList = predatorPopulation.OrderBy(o => o.GetComponent<PredatorBrain>().timeAlive).ToList();
+        predatorPopulation.Clear();
+        for(int i = (int)(sortedList.Count / 2.0f)-1; i < sortedList.Count - 1; i++)
+        {
+            
+                predatorPopulation.Add(BreedPredator(sortedList[i], sortedList[i+1]));
+                predatorPopulation.Add(BreedPredator(sortedList[i+1], sortedList[i]));
+            
+        }
+
+        for(int i = 0; i < sortedList.Count; i++)
+        {
+            Destroy(sortedList[i]);
+        }
+        generation++;
+    }
 
 
 }

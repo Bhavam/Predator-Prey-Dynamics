@@ -15,6 +15,7 @@ namespace Dynamics
         private float _attackRange = 1f;
         private float _rayDistance = 1.0f;
         private float _stoppingDistance = 1.5f;
+        private float speed = 5f;
 
         private Vector3 _destination;
         private Quaternion _desiredRotation;
@@ -23,19 +24,20 @@ namespace Dynamics
         private State _currentState;
         private bool stop=false;
 
-        private PredatorDNA dnaPredator;
-        private PreyDNA dnaPrey;
+        private PredatorBrain brainPredator;
 
         void Awake()
         {
             if(gameObject.GetComponent<Dynamics>().Team == 0)
-                   dnaPredator = gameObject.GetComponent<PredatorDNA>(); //get the dna script attached to the Predator agent
-            else 
-                   dnaPrey = gameObject.GetComponent<PreyDNA>();
+                   brainPredator = gameObject.GetComponent<PredatorBrain>(); //get the dna script attached to the Predator agent
         }
-
         private void Update()
         {
+            if(speed ==  0)
+                speed = 1;
+            if(gameObject.GetComponent<Dynamics>().Team == 0)
+                    speed = gameObject.GetComponent<PredatorBrain>().dna.GetGene(0);
+
             switch (_currentState)
             {
                 case State.Wander:
@@ -47,7 +49,7 @@ namespace Dynamics
 
                         transform.rotation = _desiredRotation;
 
-                        transform.Translate(Vector3.forward * Time.deltaTime * 5f);
+                        transform.Translate(Vector3.forward * Time.deltaTime * speed);
 
                         var rayColor = IsPathBlocked() ? Color.red : Color.green;
                         Debug.DrawRay(transform.position, _direction * _rayDistance, rayColor);
@@ -88,11 +90,9 @@ namespace Dynamics
                     {
                         if (_target != null)
                         {
-                            Destroy(_target.gameObject);
-                            if(dnaPredator !=null)
-                                 dnaPredator._reach += 0.1f;
-                            if(dnaPrey != null)
-                                 dnaPrey._speed += 0.1f;
+                            if(_target.gameObject.GetComponent<Dynamics>().Team == 0)
+                                  _target.GetComponent<PredatorBrain>().alive = false;//Time alive being set by this event
+                            //Destroy(_target.gameObject);
                         }
 
                         // play laser beam

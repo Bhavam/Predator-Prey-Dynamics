@@ -802,9 +802,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab09cca082bc364aa30fb59e98724e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trialTime: 5
+  predatorPrefabs:
+  - {fileID: 5227085921166640485, guid: 793ea3f53590c2a4f896c0645107ee88, type: 3}
+  predatorPopulationSize: 5
+  preyPrefabs:
+  - {fileID: 4347142165502780364, guid: 69d10c9268b2d67488befb4608035487, type: 3}
+  preyPopulationSize: 5
   prefabsAgents:
   - {fileID: 5227085921166640485, guid: 793ea3f53590c2a4f896c0645107ee88, type: 3}
   - {fileID: 4347142165502780364, guid: 69d10c9268b2d67488befb4608035487, type: 3}
   restPrefabs:
   - {fileID: 4150552081398213709, guid: ccb7458d8ea36474e951b36b88ae5d29, type: 3}
   - {fileID: 3193486547637522722, guid: 73d6f76526cae684aa5d97ce4b62909e, type: 3}
+  restPopulationSize: 20

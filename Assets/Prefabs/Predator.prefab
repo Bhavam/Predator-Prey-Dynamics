@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 5227085920065888260}
   - component: {fileID: 5227085920065888261}
   - component: {fileID: -5819272196322305652}
-  - component: {fileID: 4223687931972055114}
+  - component: {fileID: 6436183113436121408}
   m_Layer: 0
   m_Name: Predator
   m_TagString: Hunter
@@ -411,7 +411,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &4223687931972055114
+--- !u!114 &6436183113436121408
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -420,10 +420,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5227085921166640485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4dcca9e520b7549951f51abe2a6d61, type: 3}
+  m_Script: {fileID: 11500000, guid: b8ae55adba727df438e13b10185b256f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _reach: 1
+  DNALength: 1
+  timeAlive: 0
+  dna: {fileID: 0}
+  alive: 1
 --- !u!1 &5227085921166640561
 GameObject:
   m_ObjectHideFlags: 0
