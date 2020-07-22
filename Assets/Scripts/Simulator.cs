@@ -4,25 +4,49 @@ using UnityEngine;
 
 public class Simulator : MonoBehaviour
 {
-    public GameObject[] prefabsAgents;
-    List<GameObject> restObjects;
-    public GameObject[] restPrefabs;
+    public static float elapsed = 0;
+    public float trialTime = 5;
+    int generation = 1;
 
-    struct RestLocation
+    public GameObject[] predatorPrefabs;
+    public int predatorPopulationSize = 5;
+    List<GameObject> predatorPopulation = new List<GameObject>();
+
+    public GameObject[] preyPrefabs;
+    public int preyPopulationSize = 5;
+    List<GameObject> preyPopulation = new List<GameObject>();
+
+    public GameObject[] prefabsAgents;
+
+    public GameObject[] restPrefabs;
+    public int restPopulationSize = 20;
+    List<GameObject> restPopulation = new List<GameObject>(); 
+    
+    
+
+    struct Rest
     {
       public GameObject restPrefab;
       public Vector3 location;
     }
+
+    struct Predator
+    {
+      public GameObject predatorPrefab;
+      public Vector3 location;
+    }
+
+    struct Prey
+    {
+      public GameObject preyPrefab;
+      public Vector3 location;
+    }
+
     void Awake()
     {
       InitialiseWorld();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
     void Update()
     {
       if(Input.GetKeyDown(KeyCode.S)) //Spawn Predator/Prey
@@ -33,29 +57,56 @@ public class Simulator : MonoBehaviour
       }  
       else if(Input.GetKeyDown(KeyCode.R)) //reset world
       {
-        for(int i =0 ;i<restObjects.Count;i++)
-        {
-          Destroy(restObjects[i]);
-        }
-        restObjects.Clear();
-        InitialiseWorld();
+        DestroyAllObjects(restPopulation);
       }
+    }
+
+    public void DestroyAllObjects(List<GameObject> objectList)
+    {
+      for(int i =0 ;i<objectList.Count;i++)
+        {
+          Destroy(objectList[i]);
+        }
+        objectList.Clear();
+        InitialiseWorld();
     }
 
     public void InitialiseWorld()
     {
-      restObjects = new List<GameObject>(); //List to keep track of rest objects
-      //New Random rest object declaration
+
+      for(int i = 0;i < restPopulationSize;i++) //hardcoded bound
+        {
+          Rest restRandom = new Rest();
+          restRandom.restPrefab = restPrefabs[Random.Range(0,restPrefabs.Length)];
+          restRandom.location = new Vector3(Random.Range(-12,12),0,Random.Range(-12,12)) ;//Hardcoded bounds
+          GameObject temp =(GameObject)Instantiate(restRandom.restPrefab,restRandom.location,Quaternion.identity);
+          temp.transform.parent = transform; //All rest Objects are parented to ForestEnvironment
+          restPopulation.Add(temp);
+        }
+      
+      for(int i = 0;i < predatorPopulationSize;i++) //hardcoded bound
+        {
+          Predator predatorRandom = new Predator();
+          predatorRandom.predatorPrefab = predatorPrefabs[Random.Range(0,predatorPrefabs.Length)];
+          predatorRandom.location = new Vector3(Random.Range(-12,12),1,Random.Range(-12,12)) ;//Hardcoded bounds
+          GameObject temp1 =(GameObject)Instantiate(predatorRandom.predatorPrefab,predatorRandom.location,Quaternion.identity);
+          temp1.transform.parent = transform; //All rest Objects are parented to ForestEnvironment
+          predatorPopulation.Add(temp1);
+        } 
+      
+      for(int i = 0;i < preyPopulationSize;i++) //hardcoded bound
+        {
+          Prey preyRandom = new Prey();
+          preyRandom.preyPrefab = preyPrefabs[Random.Range(0,preyPrefabs.Length)];
+          preyRandom.location = new Vector3(Random.Range(-12,12),1,Random.Range(-12,12)) ;//Hardcoded bounds
+          GameObject temp2 =(GameObject)Instantiate(preyRandom.preyPrefab,preyRandom.location,Quaternion.identity);
+          temp2.transform.parent = transform; //All prey Objects are parented to FopreyEnvironment
+          preyPopulation.Add(temp2);
+        }
+
+    }
       
 
-      for(int i = 0;i < 20;i++) //hardcoded bound
-      {
-        RestLocation restRandom = new RestLocation();
-        restRandom.restPrefab = restPrefabs[Random.Range(0,restPrefabs.Length)];
-        restRandom.location = new Vector3(Random.Range(-12,12),0,Random.Range(-12,12)) ;//Hardcoded bounds
-        GameObject temp =(GameObject)Instantiate(restRandom.restPrefab,restRandom.location,Quaternion.identity);
-        temp.transform.parent = transform; //All rest Objects are parented to ForestEnvironment
-        restObjects.Add(temp);
-      }
-    }
+
 }
+

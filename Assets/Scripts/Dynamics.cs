@@ -12,8 +12,8 @@ namespace Dynamics
         [SerializeField] private Team _team;
         [SerializeField] private LayerMask _layerMask;
 
-        private float _attackRange = 3f;
-        private float _rayDistance = 5.0f;
+        private float _attackRange = 1f;
+        private float _rayDistance = 1.0f;
         private float _stoppingDistance = 1.5f;
 
         private Vector3 _destination;
@@ -21,7 +21,18 @@ namespace Dynamics
         private Vector3 _direction;
         private Dynamics _target;
         private State _currentState;
+        private bool stop=false;
 
+        private PredatorDNA dnaPredator;
+        private PreyDNA dnaPrey;
+
+        void Awake()
+        {
+            if(gameObject.GetComponent<Dynamics>().Team == 0)
+                   dnaPredator = gameObject.GetComponent<PredatorDNA>(); //get the dna script attached to the Predator agent
+            else 
+                   dnaPrey = gameObject.GetComponent<PreyDNA>();
+        }
 
         private void Update()
         {
@@ -47,7 +58,7 @@ namespace Dynamics
                             GetDestination();
                         }
 
-                        var targetToAggro = CheckForAggro();
+                        var targetToAggro = CheckForAggro();//returns the object transform if hit returns true
                         if (targetToAggro != null)
                         {
                             _target = targetToAggro.GetComponent<Dynamics>();
@@ -78,6 +89,10 @@ namespace Dynamics
                         if (_target != null)
                         {
                             Destroy(_target.gameObject);
+                            if(dnaPredator !=null)
+                                 dnaPredator._reach += 0.1f;
+                            if(dnaPrey != null)
+                                 dnaPrey._speed += 0.1f;
                         }
 
                         // play laser beam
@@ -110,6 +125,8 @@ namespace Dynamics
 
         private bool NeedsDestination()
         {
+            if(stop == true)
+                  return false;
             if (_destination == Vector3.zero)
                 return true;
 
@@ -129,7 +146,7 @@ namespace Dynamics
 
         private Transform CheckForAggro()
         {
-            float aggroRadius = 5f;
+            float aggroRadius = 1f;
 
             RaycastHit hit;
             var angle = transform.rotation * startingAngle;
@@ -163,8 +180,8 @@ namespace Dynamics
 
     public enum Team
     {
-        Red,
-        Blue
+        Predator,
+        Prey
     }
 
     public enum State
