@@ -20,7 +20,7 @@ Introduce genes for evolution and implement a basic genetic algorithm based evol
 
 # Experiment 1
 ### AIM 
-#### Test different population sizes and population characteristics
+Test different population sizes and population characteristics
 ### Result 
-#### With more prey the average speed of the predators increased over time as expected.
-#### With more predators or less prey the speed decreased over time which was not expected.
+With more prey the average speed of the predators increased over time as expected.
+With more predators or less prey the speed decreased over time which was not expected.
