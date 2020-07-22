@@ -20,7 +20,7 @@ public class PredatorDNA : MonoBehaviour
         genes.Clear();
         for(int i = 0; i < dnaLength; i++)
         {
-            genes.Add(Random.Range(0, maxValues));
+            genes.Add(Random.Range(1, maxValues));
         }
     }
 

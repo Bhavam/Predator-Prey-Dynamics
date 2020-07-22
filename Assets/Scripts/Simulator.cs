@@ -6,21 +6,21 @@ using System.Linq;
 public class Simulator : MonoBehaviour
 {
     public static float elapsed = 0;
-    public float trialTime = 10;
+    public float trialTime;
     int generation = 1;
 
     public GameObject[] predatorPrefabs;
-    public int predatorPopulationSize = 2;
+    public int predatorPopulationSize;
     List<GameObject> predatorPopulation = new List<GameObject>();
 
     public GameObject[] preyPrefabs;
-    public int preyPopulationSize = 5;
+    public int preyPopulationSize;
     List<GameObject> preyPopulation = new List<GameObject>();
 
     public GameObject[] prefabsAgents;
 
     public GameObject[] restPrefabs;
-    public int restPopulationSize = 20;
+    public int restPopulationSize;
     List<GameObject> restPopulation = new List<GameObject>(); 
     
     
@@ -50,11 +50,17 @@ public class Simulator : MonoBehaviour
 
     void Update()
     {
+      float sum=0;                
+      for(int k=0;k<predatorPopulation.Count;k++)
+            sum += predatorPopulation[k].GetComponent<PredatorBrain>().dna.GetGene(0);
+      sum = sum/predatorPopulation.Count;
+      Debug.Log("Final Speed "+sum);
+    
       if(Input.GetKeyDown(KeyCode.S)) //Spawn Predator/Prey
       {
           int type = Random.Range(0,prefabsAgents.Length);
           Vector3 spawnPos = new Vector3(Random.Range(-5,5),1,Random.Range(-5,5)); //Hardcoded bounds
-          Instantiate(prefabsAgents[type],spawnPos,prefabsAgents[type].transform.rotation);
+          Instantiate(prefabsAgents[1],spawnPos,prefabsAgents[1].transform.rotation);
       }  
       else if(Input.GetKeyDown(KeyCode.R)) //reset world
       {
@@ -107,7 +113,7 @@ public class Simulator : MonoBehaviour
         {
           Prey preyRandom = new Prey();
           preyRandom.preyPrefab = preyPrefabs[Random.Range(0,preyPrefabs.Length)];
-          preyRandom.location = new Vector3(Random.Range(-12,12),1,Random.Range(-12,12)) ;//Hardcoded bounds
+          preyRandom.location = new Vector3(Random.Range(-12,12),0.5f,Random.Range(-12,12)) ;//Hardcoded bounds
           GameObject temp2 =(GameObject)Instantiate(preyRandom.preyPrefab,preyRandom.location,Quaternion.identity);
           temp2.transform.parent = transform; //All prey Objects are parented to FopreyEnvironment
           preyPopulation.Add(temp2);
@@ -117,7 +123,7 @@ public class Simulator : MonoBehaviour
       
     GameObject BreedPredator(GameObject parent1,GameObject parent2)
     {
-      Vector3 startingPos = new Vector3( Random.Range(-8,8),1, -14);
+      Vector3 startingPos = new Vector3( parent1.transform.position.x,parent1.transform.position.y, parent1.transform.position.z);
       GameObject offspring = Instantiate(predatorPrefabs[0], startingPos, this.transform.rotation);
       PredatorBrain b = offspring.GetComponent<PredatorBrain>();
       if (Random.Range(0, 100) == 1)
@@ -136,16 +142,17 @@ public class Simulator : MonoBehaviour
 
     void BreedNewPredatorPopulation()
     {
-        List<GameObject> sortedList = predatorPopulation.OrderBy(o => o.GetComponent<PredatorBrain>().timeAlive).ToList();
+        predatorPopulation.RemoveAll(item => item == null);
+        List<GameObject> sortedList = predatorPopulation.OrderByDescending(o => o.GetComponent<PredatorBrain>().timeHungry).ToList();
         predatorPopulation.Clear();
-        for(int i = (int)(sortedList.Count / 2.0f)-1; i < sortedList.Count - 1; i++)
+        for(int i = (int)(sortedList.Count / 2.0f)-1; i < sortedList.Count - 2; i++)
         {
             
                 predatorPopulation.Add(BreedPredator(sortedList[i], sortedList[i+1]));
                 predatorPopulation.Add(BreedPredator(sortedList[i+1], sortedList[i]));
             
         }
-
+  
         for(int i = 0; i < sortedList.Count; i++)
         {
             Destroy(sortedList[i]);

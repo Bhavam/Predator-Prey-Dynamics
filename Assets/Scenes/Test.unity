@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 361814869}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.4030012, y: 88.417595, z: 29.263111}
-  m_LocalScale: {x: 29.233, y: 1, z: 1}
+  m_LocalScale: {x: 29.233, y: 35.97599, z: 1}
   m_Children: []
   m_Father: {fileID: 1440136726}
   m_RootOrder: 1
@@ -302,7 +302,7 @@ Transform:
   m_GameObject: {fileID: 434417537}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 15.373001, y: 88.417595, z: 14.74311}
-  m_LocalScale: {x: 29.233, y: 1, z: 1}
+  m_LocalScale: {x: 29.233, y: 35.97599, z: 1}
   m_Children: []
   m_Father: {fileID: 1440136726}
   m_RootOrder: 3
@@ -484,7 +484,7 @@ Transform:
   m_GameObject: {fileID: 995509775}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -13.126999, y: 88.417595, z: 14.74311}
-  m_LocalScale: {x: 29.233, y: 1, z: 1}
+  m_LocalScale: {x: 29.233, y: 35.97599, z: 1}
   m_Children: []
   m_Father: {fileID: 1440136726}
   m_RootOrder: 4
@@ -749,7 +749,7 @@ Transform:
   m_GameObject: {fileID: 1288107690}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.4030012, y: 88.417595, z: 0.63311005}
-  m_LocalScale: {x: 29.233, y: 1, z: 1}
+  m_LocalScale: {x: 29.233, y: 35.97599, z: 1}
   m_Children: []
   m_Father: {fileID: 1440136726}
   m_RootOrder: 2
@@ -802,17 +802,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab09cca082bc364aa30fb59e98724e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trialTime: 5
+  trialTime: 10
   predatorPrefabs:
   - {fileID: 5227085921166640485, guid: 793ea3f53590c2a4f896c0645107ee88, type: 3}
-  predatorPopulationSize: 5
+  predatorPopulationSize: 10
   preyPrefabs:
   - {fileID: 4347142165502780364, guid: 69d10c9268b2d67488befb4608035487, type: 3}
-  preyPopulationSize: 5
+  preyPopulationSize: 20
   prefabsAgents:
   - {fileID: 5227085921166640485, guid: 793ea3f53590c2a4f896c0645107ee88, type: 3}
   - {fileID: 4347142165502780364, guid: 69d10c9268b2d67488befb4608035487, type: 3}
   restPrefabs:
   - {fileID: 4150552081398213709, guid: ccb7458d8ea36474e951b36b88ae5d29, type: 3}
   - {fileID: 3193486547637522722, guid: 73d6f76526cae684aa5d97ce4b62909e, type: 3}
-  restPopulationSize: 20
+  restPopulationSize: 10

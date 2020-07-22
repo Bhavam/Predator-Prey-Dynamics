@@ -11,10 +11,12 @@ namespace Dynamics
         public Team Team => _team;
         [SerializeField] private Team _team;
         [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private int type;
+
 
         private float _attackRange = 1f;
         private float _rayDistance = 1.0f;
-        private float _stoppingDistance = 1.5f;
+        private float _stoppingDistance = 3f;
         private float speed = 5f;
 
         private Vector3 _destination;
@@ -24,19 +26,22 @@ namespace Dynamics
         private State _currentState;
         private bool stop=false;
 
-        private PredatorBrain brainPredator;
+        //private PredatorBrain brainPredator;
 
         void Awake()
         {
-            if(gameObject.GetComponent<Dynamics>().Team == 0)
-                   brainPredator = gameObject.GetComponent<PredatorBrain>(); //get the dna script attached to the Predator agent
+            /* if(gameObject.GetComponent<Dynamics>().Team == 0)
+                   brainPredator = gameObject.GetComponent<PredatorBrain>(); 
+                   type = 0; */
+                   //get the dna script attached to the Predator agent
         }
         private void Update()
         {
             if(speed ==  0)
                 speed = 1;
-            if(gameObject.GetComponent<Dynamics>().Team == 0)
+            if(gameObject.GetComponent<Dynamics>().type == 0)
                     speed = gameObject.GetComponent<PredatorBrain>().dna.GetGene(0);
+                    //Debug.Log("DNA obtained");
 
             switch (_currentState)
             {
@@ -88,11 +93,11 @@ namespace Dynamics
                     }
                 case State.Attack:
                     {
-                        if (_target != null)
+                        if (_target != null && _target.gameObject.GetComponent<Dynamics>().type == 1)
                         {
-                            if(_target.gameObject.GetComponent<Dynamics>().Team == 0)
-                                  _target.GetComponent<PredatorBrain>().alive = false;//Time alive being set by this event
-                            //Destroy(_target.gameObject);
+                            gameObject.GetComponent<PredatorBrain>().hungry = false;//Time the predator is hungry being set false by this event
+                            Destroy(_target.gameObject);
+                            //Debug.Log("Prey Eaten");
                         }
 
                         // play laser beam
@@ -146,7 +151,7 @@ namespace Dynamics
 
         private Transform CheckForAggro()
         {
-            float aggroRadius = 1f;
+            float aggroRadius = 3f;
 
             RaycastHit hit;
             var angle = transform.rotation * startingAngle;
