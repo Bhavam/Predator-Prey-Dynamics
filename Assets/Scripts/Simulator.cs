@@ -10,7 +10,7 @@ public class Simulator : MonoBehaviour
     int generation = 1;
 
     public GameObject[] predatorPrefabs;
-    public int predatorPopulationSize = 5;
+    public int predatorPopulationSize = 2;
     List<GameObject> predatorPopulation = new List<GameObject>();
 
     public GameObject[] preyPrefabs;
@@ -117,7 +117,7 @@ public class Simulator : MonoBehaviour
       
     GameObject BreedPredator(GameObject parent1,GameObject parent2)
     {
-      Vector3 startingPos = new Vector3(0 ,1, -14);
+      Vector3 startingPos = new Vector3( Random.Range(-8,8),1, -14);
       GameObject offspring = Instantiate(predatorPrefabs[0], startingPos, this.transform.rotation);
       PredatorBrain b = offspring.GetComponent<PredatorBrain>();
       if (Random.Range(0, 100) == 1)
