@@ -16,3 +16,11 @@ Introduce genes for evolution and implement a basic genetic algorithm based evol
 ![Video2](DEMO2.gif)
 #### Predators are now spawned with speed controlled by genes after generations of Genetic Recombination 
 ![Video3](DEMO3.gif)
+
+
+# Experiment 1
+### AIM 
+#### Test different population sizes and population characteristics
+### Result 
+#### With more prey the average speed of the predators increased over time as expected.
+#### With more predators or less prey the speed decreased over time which was not expected.
