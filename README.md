@@ -14,3 +14,5 @@ Introduce genes for evolution and implement a basic genetic algorithm based evol
 ![Video](DEMO.gif)
 #### Environment Setup Completed
 ![Video2](DEMO2.gif)
+#### Predators are now spawned with speed controlled by genes after generations of Genetic Recombination 
+![Video3](DEMO3.gif)
